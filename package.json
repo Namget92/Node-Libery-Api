@@ -1,0 +1,25 @@
+{
+  "name": "kk2",
+  "version": "1.0.0",
+  "description": "Kunskapskontroll 2 Webbserver & Databaser",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Namget92/kk2.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "js",
+    "sql"
+  ],
+  "author": "Tim Gottling Tegman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Namget92/kk2/issues"
+  },
+  "homepage": "https://github.com/Namget92/kk2#readme"
+}
