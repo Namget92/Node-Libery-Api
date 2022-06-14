@@ -7,7 +7,6 @@ async function getAllBooks(req, res) {
 
 async function getOneBook(req, res) {
   const id = req.params.id;
-  console.log(id);
   const result = await model.getOneBook(id);
   if (result === undefined) {
     res.status(404).send(`There is no book with id: ${id}.`);
@@ -26,26 +25,32 @@ async function deleteOneBook(req, res) {
 }
 
 async function addOneBook(req, res) {
-  if (req.body.title) {
-    if (req.body.author) {
-      if (req.body.published) {
-        if (req.body.genre) {
-          const { title, author, published, genre } = req.body;
-          const book = [title, author, published, genre];
-          await model.addOneBook(book);
-          const result = await model.getAllBooks();
-          res.status(201).send(result);
+  if (req.body.amount) {
+    if (req.body.title) {
+      if (req.body.author) {
+        if (req.body.published) {
+          if (req.body.genre) {
+            const { title, author, published, genre, amount } = req.body;
+            const book = [title, author, published, genre, amount];
+            await model.addOneBook(book);
+            const result = await model.getAllBooks();
+            res.status(201).send(result);
+          } else {
+            res.status(400).send("The books needs a genre (string).");
+          }
         } else {
-          res.status(400).send("The books needs a genre (string).");
+          res
+            .status(400)
+            .send("The books needs a year of published (integer).");
         }
       } else {
-        res.status(400).send("The books needs a year of published (integer).");
+        res.status(400).send("The books needs a author (string).");
       }
     } else {
-      res.status(400).send("The books needs a author (string).");
+      res.status(400).send("The books needs a title (string).");
     }
   } else {
-    res.status(400).send("The books needs a title (string).");
+    res.status(400).send("The books needs a amount (integer).");
   }
 }
 
@@ -54,27 +59,33 @@ async function putOneBook(req, res) {
   const findBook = await model.getOneBook(id);
   if (findBook === undefined) {
     res.status(404).send(`There is no book with id: ${id}.`);
-  } else if (req.body.title) {
-    if (req.body.author) {
-      if (req.body.published) {
-        if (req.body.genre) {
-          let theOneBook = await model.getOneBook(id);
-          const { title, author, published, genre } = req.body;
-          theOneBook = [title, author, published, genre];
-          await model.putOneBook(theOneBook, id);
-          const result = await model.getAllBooks();
-          res.status(200).send(result);
+  } else if (req.body.amount) {
+    if (req.body.title) {
+      if (req.body.author) {
+        if (req.body.published) {
+          if (req.body.genre) {
+            let theOneBook = await model.getOneBook(id);
+            const { title, author, published, genre, amount } = req.body;
+            theOneBook = [title, author, published, genre, amount];
+            await model.putOneBook(theOneBook, id);
+            const result = await model.getAllBooks();
+            res.status(200).send(result);
+          } else {
+            res.status(400).send("The books needs a genre (string).");
+          }
         } else {
-          res.status(400).send("The books needs a genre (string).");
+          res
+            .status(400)
+            .send("The books needs a year of published (integer).");
         }
       } else {
-        res.status(400).send("The books needs a year of published (integer).");
+        res.status(400).send("The books needs a author (string).");
       }
     } else {
-      res.status(400).send("The books needs a author (string).");
+      res.status(400).send("The books needs a title (string).");
     }
   } else {
-    res.status(400).send("The books needs a title (string).");
+    res.status(400).send("The books needs a amount (integer).");
   }
 }
 
@@ -87,7 +98,8 @@ async function patchOneBook(req, res) {
     req.body.title ||
     req.body.author ||
     req.body.published ||
-    req.body.genre
+    req.body.genre ||
+    req.body.amount
   ) {
     if (req.body.title) {
       const title = req.body.title;
@@ -104,6 +116,10 @@ async function patchOneBook(req, res) {
     if (req.body.genre) {
       const genre = req.body.genre;
       await model.patchGenre(genre, id);
+    }
+    if (req.body.amount) {
+      const amount = req.body.amount;
+      await model.patchAmount(amount, id);
     }
     const result = await model.getAllBooks();
     res.status(200).send(result);
